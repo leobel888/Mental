@@ -1,0 +1,2 @@
+RegistrationModel.php:
+	- 72-82 commet part of code for sending verification email (doesn't work)
