@@ -82,7 +82,7 @@ class RegistrationModel
     /**
      * Validates the registration input
      *
-     *  @param $captcha
+     * @param $captcha
      * @param $user_name
      * @param $user_password_new
      * @param $user_password_repeat
