@@ -50,14 +50,11 @@ class RegistrationModel
         // if Username or Email were false, return false
         if (!$return) return false;
 
-        //
-		$timestamp = date('Y-m-d H:i:s', strtotime(date())); 
-		
-		// generate random hash for email verification (40 char string)
+        // generate random hash for email verification (40 char string)
         $user_activation_hash = sha1(uniqid(mt_rand(), true));
 
         // write user data to database
-        if (!self::writeNewUserToDatabase($user_name, $user_password_hash, $user_email, $timestamp, $user_activation_hash)) {
+        if (!self::writeNewUserToDatabase($user_name, $user_password_hash, $user_email, time(), $user_activation_hash)) {
             Session::add('feedback_negative', Text::get('FEEDBACK_ACCOUNT_CREATION_FAILED'));
             return false; // no reason not to return false here
         }
@@ -69,9 +66,9 @@ class RegistrationModel
             Session::add('feedback_negative', Text::get('FEEDBACK_UNKNOWN_ERROR'));
             return false;
         }
-/***********
+
         // send verification email
-		if (self::sendVerificationEmail($user_id, $user_email, $user_activation_hash)) {
+        if (self::sendVerificationEmail($user_id, $user_email, $user_activation_hash)) {
             Session::add('feedback_positive', Text::get('FEEDBACK_ACCOUNT_SUCCESSFULLY_CREATED'));
             return true;
         }
@@ -79,7 +76,7 @@ class RegistrationModel
         // if verification email sending failed: instantly delete the user
         self::rollbackRegistrationByUserId($user_id);
         Session::add('feedback_negative', Text::get('FEEDBACK_VERIFICATION_MAIL_SENDING_FAILED'));
-        return false; *******************/
+        return false;
     }
 
     /**
